@@ -6,7 +6,7 @@
   "permissions": ["activeTab", "storage"],
   "content_scripts": [
     {
-      "matches": ["https://www.kermanig.com/cart"],
+      "matches": ["https://*.com/products/*", "https://*.com/cart/*"],
       "js": ["content.js"]
     }
   ],
