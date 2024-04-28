@@ -1,0 +1,86 @@
+/* General Body Styling */
+body {
+    font-family: 'Arial', sans-serif;
+    margin: 0;
+    padding: 10px;
+    background-color: #f4f4f4;
+    color: #333;
+
+        min-width: 300px; /* Set your desired width */
+
+}
+
+/* Popup Header */
+h1 {
+    color: #333;
+    text-align: center;
+}
+
+/* Input and Select Field Styling */
+input[type="number"], select {
+    width: 100%;
+    padding: 8px 10px;
+    margin: 8px 0;
+    display: inline-block;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+
+/* Button Styling */
+button {
+    width: 100%;
+    background-color: #4CAF50;
+    color: white;
+    padding: 14px 20px;
+    margin: 8px 0;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #45a049;
+}
+
+/* Result Display Styling */
+#result {
+    font-size: 16px;
+    font-weight: bold;
+    padding: 10px;
+    text-align: center;
+    background-color: #ddd;
+    border-radius: 4px;
+}
+
+/* Custom Widget Styling on Kermanig Cart Page */
+.productmonitor {
+    background-color: #ffffff;
+    border: 2px solid #0f62fe;
+    border-radius: 8px;
+    padding: 10px;
+    margin-bottom: 10px; /* Space between the widget and any following elements */
+}
+
+.productmonitor div, .productmonitor button {
+    margin: 5px 0;
+}
+
+.productmonitor button {
+    background-color: #0f62fe;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    padding: 10px 15px;
+}
+
+.productmonitor button:hover {
+    background-color: #0339a1;
+}
+
+/* Responsive design for smaller screens */
+@media (max-width: 600px) {
+    body, input[type="number"], select, button {
+        width: 100%;
+    }
+}
