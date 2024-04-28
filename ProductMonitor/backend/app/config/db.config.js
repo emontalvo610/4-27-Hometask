@@ -1,9 +1,9 @@
 module.exports = {
-  HOST: "127.0.0.1",
-  USER: "postgres",
-  PORT: 5432,
-  PASSWORD: "d119eveloper2020!A",
-  DB: "db_chrome_extension",
+  HOST: process.env.host,
+  USER: process.env.user,
+  PORT: process.env.port,
+  PASSWORD: process.env.password,
+  DB: process.env.db,
   dialect: "postgres",
   pool: {
     max: 5,
