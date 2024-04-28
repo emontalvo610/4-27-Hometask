@@ -1,8 +1,5 @@
-console.log("Here is the content script running");
-
 function initWidget() {
   const cartFormElement = document.querySelector(".cart__ctas");
-  console.log("cardform", { content: cartFormElement.innerHTML });
   const widget = document.createElement("div");
   widget.innerHTML = ` 
     <div class="si-widget" >
@@ -44,15 +41,14 @@ function initWidget() {
         
     <div>
     `;
-  console.log("my widge", widget);
-  console.log("updated cart element", cartFormElement.innerHTML);
+
   cartFormElement.append(widget);
 }
 
 function configureWidgetCheckbox() {
   const widgetCheckbox = document.querySelector("#widget-checkbox");
   const widgetDisabled = localStorage.getItem("disable-shopify-widget");
-  widgetCheckbox.checked = !!!widgetDisabled;
+  widgetCheckbox.checked = !widgetDisabled;
   widgetCheckbox.onchange = function (e) {
     localStorage.setItem("disable-shopify-widget", e.target.checked);
   };
@@ -173,7 +169,6 @@ async function fetchProductData() {
     const data = await response.json();
     return data;
   } catch (error) {
-    console.error("Failed to fetch products:", error);
     return []; // Return an empty array on failure
   }
 }
@@ -212,7 +207,6 @@ function attachEventHandlers() {
 }
 
 setTimeout(async () => {
-  console.log(" initializing!");
   if (location.pathname.indexOf("cart") != -1) {
     await initWidget();
     attachEventHandlers();
