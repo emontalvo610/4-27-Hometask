@@ -2,6 +2,8 @@ const express = require("express");
 // const bodyParser = require("body-parser"); /* deprecated */
 const cors = require("cors");
 
+require("dotenv").config();
+
 const app = express();
 
 var corsOptions = {
@@ -38,5 +40,6 @@ require("./app/routes/product.routes")(app);
 // set port, listen for requests
 const PORT = 8080;
 app.listen(PORT, () => {
+  console.log("HOST->>>>>", process.env.HOST);
   console.log(`Server is running on port ${PORT}.`);
 });
