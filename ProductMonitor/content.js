@@ -54,13 +54,13 @@ function configureWidgetCheckbox() {
   const widgetDisabled = localStorage.getItem("disable-shopify-widget");
   widgetCheckbox.checked = !!!widgetDisabled;
   widgetCheckbox.onchange = function (e) {
-    localStorage.setItem("disable-shopify-widget", !e.target.checked);
+    localStorage.setItem("disable-shopify-widget", e.target.checked);
   };
 }
 
 function scrapeProductImages() {
   const widgetDisabled = localStorage.getItem("disable-shopify-widget");
-  if (widgetDisabled) return;
+  if (!widgetDisabled) return;
   const images = document.querySelectorAll(".product__media img");
   const imageUrls = [];
   for (let i = 0; i < images.length; i++) {
