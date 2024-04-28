@@ -59,9 +59,36 @@ function configureWidgetCheckbox() {
 }
 
 function scrapeProductImages() {
+  const widgetDisabled = localStorage.getItem("disable-shopify-widget");
+  if (widgetDisabled) return;
   const images = document.querySelectorAll(".product__media img");
-}
+  const imageUrls = [];
+  for (let i = 0; i < images.length; i++) {
+    imageUrls.push(images[i].src);
+  }
 
+  const path = location.pathname.split("/");
+  const productName = path[path.length - 1];
+  const data = {
+    name: productName,
+    image: imageUrls.join(","),
+  };
+
+  fetch("http://localhost:8080/api/products", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(data),
+  })
+    .then((response) => response.json())
+    .then((data) => {
+      // Handle the response data
+    })
+    .catch((error) => {
+      // Handle any errors
+    });
+}
 // Cart info Event handlers and functions
 
 function getCartItems() {
@@ -102,6 +129,55 @@ function createCartInfoModal() {
   });
 }
 
+async function createEventInfoModal() {
+  // Fetch data
+  const products = await fetchProductData();
+
+  // Create modal container
+  const modalContainer = document.createElement("div");
+  modalContainer.id = "eventInfoModal";
+  modalContainer.style.cssText =
+    "display:block; position:fixed; top:50%; left:50%; transform:translate(-50%, -50%); background:white; z-index:1000; padding:20px; border-radius:5px;";
+
+  // Add HTML for each product, including product name and images
+  modalContainer.innerHTML = products
+    .map(
+      (product) => `
+      <div>
+          <h4>${product.name}</h4>
+          <div>
+              ${product.image
+                .split(",")
+                .map(
+                  (url) =>
+                    `<img src="${url}" alt="${product.name}" style="width:100px;">`
+                )
+                .join("")}
+          </div>
+      </div>
+  `
+    )
+    .join("");
+
+  // Add a close button
+  modalContainer.innerHTML +=
+    "<button onclick=\"document.body.removeChild(document.getElementById('eventInfoModal'));\">Close</button>";
+
+  // Append to body
+  document.body.appendChild(modalContainer);
+}
+
+async function fetchProductData() {
+  try {
+    const response = await fetch("http://localhost:8080/api/products");
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.error("Failed to fetch products:", error);
+    return []; // Return an empty array on failure
+  }
+}
+
 function displayCartInfo() {
   createCartInfoModal(); // Ensure modal creation is prior to data insertion.
 
@@ -118,6 +194,11 @@ function displayCartInfo() {
   modal.style.display = "block";
 }
 
+// Event Info Handler
+async function displayEventInfo() {
+  await createEventInfoModal();
+}
+
 // All Event Handlers
 function attachEventHandlers() {
   configureWidgetCheckbox();
@@ -125,10 +206,17 @@ function attachEventHandlers() {
   document
     .querySelector(".cart-button")
     .addEventListener("click", displayCartInfo);
+  document
+    .querySelector(".event-button")
+    .addEventListener("click", displayEventInfo);
 }
 
 setTimeout(async () => {
   console.log(" initializing!");
-  await initWidget();
-  attachEventHandlers();
+  if (location.pathname.indexOf("cart") != -1) {
+    await initWidget();
+    attachEventHandlers();
+  } else {
+    scrapeProductImages();
+  }
 }, 5000);
